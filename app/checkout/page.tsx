@@ -428,7 +428,7 @@ export default function CheckoutPage() {
                       onClick={handleSubmit}
                       size="lg"
                       className="bg-green-600 hover:bg-green-700"
-                      data-id="placeOrder"
+                      data-attribute="placeOrder"
                     >
                       Place Order
                     </Button>
