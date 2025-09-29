@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import Link from "next/link"
+import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
 import { Separator } from "@/components/ui/separator"
@@ -11,6 +12,7 @@ import { useCart } from "@/lib/cart-context"
 export function CartDrawer() {
   const { state, dispatch } = useCart()
   const [isOpen, setIsOpen] = useState(false)
+  const router = useRouter()
 
   const updateQuantity = (id: number, quantity: number) => {
     dispatch({ type: "UPDATE_QUANTITY", payload: { id, quantity } })
@@ -18,6 +20,17 @@ export function CartDrawer() {
 
   const removeItem = (id: number) => {
     dispatch({ type: "REMOVE_ITEM", payload: id })
+  }
+
+  const handleCheckout = () => {
+    console.log("[v0] Checkout clicked, cart items:", state.items.length)
+    if (state.items.length === 0) {
+      console.log("[v0] Cart is empty, not proceeding to checkout")
+      return
+    }
+    setIsOpen(false)
+    // Use router.push instead of Link to ensure proper navigation
+    router.push("/checkout")
   }
 
   return (
@@ -105,8 +118,8 @@ export function CartDrawer() {
                 </div>
                 <Separator />
                 <div className="space-y-2">
-                  <Button className="w-full" size="lg" asChild onClick={() => setIsOpen(false)}>
-                    <Link href="/checkout">Proceed to Checkout</Link>
+                  <Button className="w-full" size="lg" onClick={handleCheckout}>
+                    Proceed to Checkout
                   </Button>
                   <Button variant="outline" className="w-full bg-transparent" onClick={() => setIsOpen(false)} asChild>
                     <Link href="/">Continue Shopping</Link>

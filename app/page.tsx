@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/badge"
 import { Star } from "lucide-react"
 import { CartDrawer } from "@/components/cart-drawer"
 import { useCart } from "@/lib/cart-context"
+import { useState } from "react"
 
 // Sample product data
 const featuredProducts = [
@@ -81,6 +82,7 @@ const categories = [
 
 export default function HomePage() {
   const { dispatch } = useCart()
+  const [addedProducts, setAddedProducts] = useState<Set<number>>(new Set())
 
   const addToCart = (product: (typeof featuredProducts)[0]) => {
     dispatch({
@@ -92,6 +94,15 @@ export default function HomePage() {
         image: product.image,
       },
     })
+
+    setAddedProducts((prev) => new Set(prev).add(product.id))
+    setTimeout(() => {
+      setAddedProducts((prev) => {
+        const newSet = new Set(prev)
+        newSet.delete(product.id)
+        return newSet
+      })
+    }, 2000)
   }
 
   return (
@@ -206,8 +217,12 @@ export default function HomePage() {
                 </CardContent>
                 <CardFooter className="p-6 pt-0">
                   <div className="flex space-x-2 w-full">
-                    <Button className="flex-1" onClick={() => addToCart(product)}>
-                      Add to Cart
+                    <Button
+                      className="flex-1"
+                      onClick={() => addToCart(product)}
+                      disabled={addedProducts.has(product.id)}
+                    >
+                      {addedProducts.has(product.id) ? "Added" : "Add to Cart"}
                     </Button>
                     <Button variant="outline" asChild>
                       <Link href={`/product/${product.id}`}>View Details</Link>

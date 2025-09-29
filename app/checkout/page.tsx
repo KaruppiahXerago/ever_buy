@@ -34,6 +34,8 @@ export default function CheckoutPage() {
     saveInfo: false,
   })
 
+  console.log("[v0] Checkout page loaded, cart items:", state.items.length, "total:", state.total)
+
   const handleInputChange = (field: string, value: string | boolean) => {
     setFormData((prev) => ({ ...prev, [field]: value }))
   }
@@ -56,6 +58,7 @@ export default function CheckoutPage() {
   }
 
   if (state.items.length === 0) {
+    console.log("[v0] Cart is empty on checkout page, showing empty cart message")
     return (
       <div className="min-h-screen bg-background">
         <header className="border-b bg-card">
@@ -421,7 +424,12 @@ export default function CheckoutPage() {
                     <Button variant="outline" onClick={handlePrevStep}>
                       Back to Payment
                     </Button>
-                    <Button onClick={handleSubmit} size="lg" className="bg-green-600 hover:bg-green-700">
+                    <Button
+                      onClick={handleSubmit}
+                      size="lg"
+                      className="bg-green-600 hover:bg-green-700"
+                      data-id="placeOrder"
+                    >
                       Place Order
                     </Button>
                   </div>

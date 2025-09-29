@@ -87,6 +87,7 @@ export default function ProductDetailPage({ params }: { params: { id: string } }
   const [selectedImage, setSelectedImage] = useState(0)
   const [quantity, setQuantity] = useState(1)
   const [isWishlisted, setIsWishlisted] = useState(false)
+  const [isAdded, setIsAdded] = useState(false)
   const { dispatch } = useCart()
 
   const product = productData[params.id as keyof typeof productData]
@@ -120,6 +121,11 @@ export default function ProductDetailPage({ params }: { params: { id: string } }
         },
       })
     }
+
+    setIsAdded(true)
+    setTimeout(() => {
+      setIsAdded(false)
+    }, 2000)
   }
 
   return (
@@ -231,9 +237,9 @@ export default function ProductDetailPage({ params }: { params: { id: string } }
               </div>
 
               <div className="flex space-x-3">
-                <Button size="lg" className="flex-1" onClick={addToCart}>
+                <Button size="lg" className="flex-1" onClick={addToCart} disabled={isAdded}>
                   <ShoppingCart className="h-5 w-5 mr-2" />
-                  Add to Cart
+                  {isAdded ? "Added" : "Add to Cart"}
                 </Button>
                 <Button variant="outline" size="lg" onClick={() => setIsWishlisted(!isWishlisted)}>
                   <Heart className={`h-5 w-5 ${isWishlisted ? "fill-red-500 text-red-500" : ""}`} />
