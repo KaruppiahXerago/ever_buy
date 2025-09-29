@@ -9,8 +9,8 @@ import Script from "next/script"
 import "./globals.css"
 
 export const metadata: Metadata = {
-  title: "TechStore - Premium Electronics & Accessories",
-  description: "Discover amazing tech products at unbeatable prices",
+  title: "EverBuy - Premium Electronics & Accessories",
+  description: "Discover amazing tech products at unbeatable prices with EverBuy",
   generator: "v0.app",
 }
 
@@ -22,14 +22,17 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`font-sans ${GeistSans.variable} ${GeistMono.variable}`}>
-        <Script
-          src="https://assets.adobedtm.com/4fa03d1212c6/040e774de1b7/launch-7f68937d2e8f-development.min.js"
-          strategy="beforeInteractive"
-        />
         <Suspense fallback={null}>
           <CartProvider>{children}</CartProvider>
         </Suspense>
         <Analytics />
+
+        {/* Adobe Launch script */}
+        <Script
+          src="https://assets.adobedtm.com/4fa03d1212c6/040e774de1b7/launch-7f68937d2e8f-development.min.js"
+          strategy="afterInteractive"
+          async
+        />
       </body>
     </html>
   )
