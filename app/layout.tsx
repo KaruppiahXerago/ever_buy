@@ -5,11 +5,12 @@ import { GeistMono } from "geist/font/mono"
 import { Analytics } from "@vercel/analytics/next"
 import { CartProvider } from "@/lib/cart-context"
 import { Suspense } from "react"
+import Script from "next/script"
 import "./globals.css"
 
 export const metadata: Metadata = {
-  title: "EverBuy - Premium Electronics & Accessories",
-  description: "Discover amazing tech products at unbeatable prices with EverBuy",
+  title: "TechStore - Premium Electronics & Accessories",
+  description: "Discover amazing tech products at unbeatable prices",
   generator: "v0.app",
 }
 
@@ -21,6 +22,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`font-sans ${GeistSans.variable} ${GeistMono.variable}`}>
+        <Script
+          src="https://assets.adobedtm.com/4fa03d1212c6/040e774de1b7/launch-7f68937d2e8f-development.min.js"
+          strategy="beforeInteractive"
+        />
         <Suspense fallback={null}>
           <CartProvider>{children}</CartProvider>
         </Suspense>
